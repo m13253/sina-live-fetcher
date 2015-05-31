@@ -51,14 +51,11 @@ func main() {
     }
 
     tvid, err := get_tvid(webpage_url)
-    if err != nil {
-        log.Fatalln(err)
-    }
+    if err != nil { log.Fatalln(err) }
 
     flv_url, err := get_flv_url(tvid)
-    if err != nil {
-        log.Fatalln(err)
-    }
+    if err != nil { log.Fatalln(err) }
+
     for _, i := range flv_url {
         fmt.Println(i)
     }
