@@ -256,6 +256,9 @@ func do_bayeux_poll(server string, client_id string) (msg []string, err error, f
                 for _, i := range data["msgs"].([]interface{}) {
                     if data_msgs, ok := i.(map[string]interface{}); ok {
                         if data_msg, ok := data_msgs["msg"].(string); ok {
+                            if strings.HasPrefix(data_msg, `{"pid":`) {
+                                data_msg = "{观众发送了一份礼物}"
+                            }
                             msg = append(msg, data_msg)
                         }
                     }
