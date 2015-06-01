@@ -7,6 +7,8 @@ These are utilities to fetch HTTP live stream URL from [Sina Live Game Broadcast
 
 Use your favorite Go compiler ([gc](https://golang.org/doc/install) or [gccgo](https://golang.org/doc/install/gccgo)) to compile it.
 
+Note due to [a Wine bug](https://groups.google.com/d/msg/golang-nuts/nhJOw71rw7k/NTaK2_G794QJ), this program may not function properly under Wine. Build native Linux version if you run it on Linux.
+
 ## stream-url-fetcher
 
 This program takes one argument, which is the web page URL of the live broadcast.
