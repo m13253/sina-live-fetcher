@@ -72,6 +72,8 @@ func main() {
     if err != nil { log.Fatalln(err) }
     err = do_bayeux_sub(chat_server, client_id, chat_channel)
     if err != nil { log.Fatalln(err) }
+    err = do_bayeux_query(chat_server, client_id, chat_channel)
+    if err != nil { log.Fatalln(err) }
 
     for {
         msg, err, fatal := do_bayeux_poll(chat_server, client_id)
@@ -218,6 +220,25 @@ func do_bayeux_sub(server string, client_id string, channel string) (err error) 
     if err != nil { return }
     if len(resp) < 1 || !resp[0]["successful"].(bool) {
         err = errors.New("Failed to join Bayeux chatroom")
+    }
+    return
+}
+
+func do_bayeux_query(server string, client_id string, channel string) (err error) {
+    re := regexp.MustCompile(`\d+`)
+    rid := re.FindString(channel)
+    if rid == "" {
+        log.Printf("%s seems not a good chatroom channel name\n", channel)
+        rid = channel
+    }
+
+    resp, err := send_bayeux_message(server, []map[string]interface{}{
+        {"channel": "/im/req", "data": map[string]string{"cmd": "roomlist", "rid": rid, "cid": ""}, "clientId": client_id},
+        {"channel": "/im/req", "data": map[string]string{"cmd": "vcard"}, "clientId":client_id},
+        {"channel": "/im/req", "data": map[string]string{"cmd": "roster", "type": "all"}, "clientId": client_id}})
+    if err != nil { return }
+    if len(resp) < 1 || !resp[0]["successful"].(bool) {
+        err = errors.New("Failed to query information about Bayeux chatroom")
     }
     return
 }
