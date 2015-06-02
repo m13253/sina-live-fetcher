@@ -74,6 +74,7 @@ func main() {
     if err != nil { log.Fatalln(err) }
     err = do_bayeux_query(chat_server, client_id, chat_channel)
     if err != nil { log.Fatalln(err) }
+    log.Println("Chatroom connected successfully. :-)")
 
     for {
         msg, err, fatal := do_bayeux_poll(chat_server, client_id)
